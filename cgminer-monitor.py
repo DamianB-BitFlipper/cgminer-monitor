@@ -53,8 +53,9 @@ cgminer_port = 4028
 #change if not using gmail
 # the best way to find the sever addresses is to do a web search
 # append the SSL or TSL port at the end
+#script may crash if there is a port on imap, leave it without a port
 email_smtp_server = 'smtp.gmail.com:587'
-email_imap_server = 'imap.gmail.com:143'
+email_imap_server = 'imap.gmail.com'
 
 email_login = 'login_username'
 email_password = 'login_password'
@@ -640,6 +641,14 @@ class CGMinerRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 # Useful error translations:
 # [Errno 111] Connection refused - cgminer's API has not been started yet
 #       Solution: Be sure to run cgminer with '--api-listen --api-allow W:127.0.0.1'
+#
+# [Errno 107] Transport endpoint is not connected
+#       Solution: Check that the --api-allow address is correct
+#
+# [Errno -2] Name or service not known
+#       Solution: Make sure your imap and smtp server locaions are correct
+#                     The script may crash if there is a port on the imap server, leave it without a port
+
 
 if __name__ == "__main__":
     if email_uniq_monitor_signature == email_uniq_commander_signature and email_from == email_to:

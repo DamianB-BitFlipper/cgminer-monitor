@@ -38,8 +38,9 @@ from Crypto import Random
 #change if not using gmail
 # the best way to find the sever addresses is to do a web search
 # append the SSL or TSL port at the end
+#script may crash if there is a port on imap, leave it without a port
 email_smtp_server = 'smtp.gmail.com:587'
-email_imap_server = 'imap.gmail.com:143'
+email_imap_server = 'imap.gmail.com'
 
 __login__ = 'login_username'
 __pass__ = 'login_password'
