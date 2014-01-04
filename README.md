@@ -10,9 +10,9 @@ Tested with python 2.7.3 and cgminer 3.7.2.
 Additional crypto modules may be needed.
 
 Setup for extra modules:
-   1. Install pip in order to install modules (replace apt-get with your distro installation manager)
+   1. Install python-pip in order to install modules (replace apt-get with your distro installation manager)
 
-         sudo apt-get install pip
+         sudo apt-get install python-pip
    2. Install crypto modules
 
          sudo pip install pycrypto hashlib
@@ -64,6 +64,7 @@ Usage: cgminer-commander.py [argument]
 
  - If configured correctly, handles all of the formating and encryption of emails
  - When sending command emails, specific format must be followed
+ - The commands are from cgminer's API, a list of the commands can be found in the API-README file
   * Format: command, parameter1, parameter2, etc;
 
         Example:
