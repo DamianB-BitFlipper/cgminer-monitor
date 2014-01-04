@@ -36,8 +36,10 @@ from Crypto import Random
 ########USER SETTINGS########
 
 #change if not using gmail
+# the best way to find the sever addresses is to do a web search
+# append the SSL or TSL port at the end
 email_smtp_server = 'smtp.gmail.com:587'
-email_imap_server = 'imap.gmail.com'
+email_imap_server = 'imap.gmail.com:143'
 
 __login__ = 'login_username'
 __pass__ = 'login_password'

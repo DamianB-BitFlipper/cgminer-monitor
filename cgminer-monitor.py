@@ -51,8 +51,10 @@ cgminer_host = 'localhost'
 cgminer_port = 4028
 
 #change if not using gmail
+# the best way to find the sever addresses is to do a web search
+# append the SSL or TSL port at the end
 email_smtp_server = 'smtp.gmail.com:587'
-email_imap_server = 'imap.gmail.com'
+email_imap_server = 'imap.gmail.com:143'
 
 email_login = 'login_username'
 email_password = 'login_password'
