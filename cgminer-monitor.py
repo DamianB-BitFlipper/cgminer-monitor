@@ -439,8 +439,8 @@ def StartMonitor(client):
         must_send_email = False
         must_restart = False
 
-        #check the internet connection every email_internet_check_interval minutes +- 15 seconds
-        if (time.time() - last_internet_check > email_internet_check_interval * 60 \
+        #check the internet connection every email_internet_check_interval minutes
+        if (time.time() - last_internet_check > email_internet_check_interval * 60 * 60 \
             or test_internet_connection == True) and \
             check_internet_connection == True:
 
@@ -525,13 +525,13 @@ def StartMonitor(client):
 
         #check the email for new commands (work around for non-ssh remote commanding)
         if email_check_for_commands == True:
-            if time.time() - last_command_check > email_command_check_interval * 60 * 60:
+            if time.time() - last_command_check > email_command_check_interval * 60:
                 last_command_check = time.time()
                 ApplyMessageCommands(GetNewEmails(email_login, email_password), client, output, must_send_email)
 
         #sends emails periodically to test for the connection
         if email_for_internet_check == True:
-            if time.time() - last_internet_check_email_sent > email_internet_check_interval * 60:
+            if time.time() - last_internet_check_email_sent > email_internet_check_interval * 60 * 60:
                 last_internet_check_email_sent = time.time()
                 SendEmail(from_addr = email_from, to_addr_list = [email_to], cc_addr_list = [],
                           subject = email_internet_check_subject + "at" + \
