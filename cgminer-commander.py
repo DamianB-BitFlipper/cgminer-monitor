@@ -108,14 +108,14 @@ def decrypt(encrypted_text, passphrase = email_decrypt_key_hash):
     dec = DecodeAES(cipher, encrypted_text)
     return dec
 
-def CheckRecievingSignature(message):
+def CheckSignature(message, signature):
     words = message['Subject'].split('_')
 
     if words == []:
         return False
 
     #first word in subject must be the uniq_signature from the miner
-    if words[0] != email_uniq_monitor_signature:
+    if words[0] != signature:
         return False
 
     return True
@@ -161,11 +161,19 @@ def GetNewMinerEmail(login, password, imapserver = email_imap_server):
             #get the email's information
             typ, data = server.fetch(num, '(RFC822)')
             msg = email.message_from_string(data[0][1])
+
+            #only mark new messages from the monitor as seen, else unmark them
+            if(CheckSignature(msg, email_uniq_monitor_signature) == True:
+                typ, data = server.store(num, '+FLAGS', '(\\Seen)')
+            else:
+                #mark the email as unseen 
+                typ, data = server.store(num, '-FLAGS', '(\\Seen)')
+
             #mark the email as seen 
             typ, data = server.store(num, '+FLAGS', '(\\Seen)')
 
             try:
-                if CheckRecievingSignature(msg) == True:
+                if CheckSignature(msg, email_uniq_monitor_signature) == True:
                     #if the email should be decrypted
                     if email_decrypt == True:
                         undecrypted = GetBody(msg)
@@ -189,7 +197,7 @@ def ShowMinerResponces(messages = GetNewMinerEmail(__login__, __pass__)):
     for i in range(len(messages)):
 
         #if the signature does not match
-        if CheckRecievingSignature(messages[i]) == False:
+        if CheckSignature(messages[i], email_uniq_monitor_signature) == False:
             continue
         else:
             print messages[i]['Subject'], "sent at", messages[i]['Date']

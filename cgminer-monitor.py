@@ -242,20 +242,20 @@ def decrypt(encrypted_text, passphrase = email_decrypt_key_hash):
 # Utils
 #
 
-def CheckRecievingSignature(message):
+def CheckSignature(message, signature):
     words = message['Subject'].split('_')
 
     if words == []:
         return False
 
     #first word in subject must be the uniq_signature from the miner
-    if words[0] != email_uniq_commander_signature:
+    if words[0] != signature:
         return False
 
     return True
 
-def SubjectWithoutSignature(message):
-    if CheckRecievingSignature(message) == False:
+def SubjectWithoutSignature(message, signature):
+    if CheckSignature(message, signature) == False:
         return ""
 
     words = message['Subject'].split('_')
@@ -307,15 +307,15 @@ def GetNewEmails(login, password, imapserver = email_imap_server):
             typ, data = server.fetch(num, '(RFC822)')
             msg = email.message_from_string(data[0][1])
 
-            #only mark messages from the commander as seen, else unmark them
-            if(msg['Subject'] == email_uniq_commander_signature):
+            #only mark new messages from the commander as seen, else unmark them
+            if(CheckSignature(msg, email_uniq_commander_signature) == True:
                 typ, data = server.store(num, '+FLAGS', '(\\Seen)')
             else:
                 #mark the email as unseen 
                 typ, data = server.store(num, '-FLAGS', '(\\Seen)')
 
             try:
-                if CheckRecievingSignature(msg) == True:
+                if CheckSignature(msg, email_uniq_commander_signature) == True:
                     #if the email should be decrypted
                     if email_decrypt == True:
                         undecrypted = GetBody(msg)
@@ -365,7 +365,7 @@ def ApplyMessageCommands(messages, client, output, must_send_email):
         msg = messages[-i]
 
         #if the subject is asking for syntax help
-        if SubjectWithoutSignature(msg) == email_command_subject_help:
+        if SubjectWithoutSignature(msg, email_uniq_commander_signature) == email_command_subject_help:
             help_info = """command, parameter; or command;
                            \tExample: gpu, 0;\n gpuintensity, 0, 13;
                            See the cgminer API-README for commands\n"""
@@ -380,7 +380,7 @@ def ApplyMessageCommands(messages, client, output, must_send_email):
 
 
         #make sure it is a command message
-        if SubjectWithoutSignature(msg) != email_command_subject:
+        if SubjectWithoutSignature(msg, email_uniq_commander_signature) != email_command_subject:
             continue
 
         try:
