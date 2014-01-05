@@ -308,7 +308,7 @@ def GetNewEmails(login, password, imapserver = email_imap_server):
             msg = email.message_from_string(data[0][1])
 
             #only mark new messages from the commander as seen, else unmark them
-            if(CheckSignature(msg, email_uniq_commander_signature) == True:
+            if CheckSignature(msg, email_uniq_commander_signature) == True:
                 typ, data = server.store(num, '+FLAGS', '(\\Seen)')
             else:
                 #mark the email as unseen 
