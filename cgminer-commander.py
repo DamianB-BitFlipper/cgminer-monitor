@@ -17,6 +17,7 @@
 #    Run the command with --help or -h
 #
 
+# Additional Dependencies that may be needed: pycrypto
 
 #Email stuff
 import smtplib
@@ -69,6 +70,8 @@ email_encrypt_key = b'Super Secure Passphrase Goes Here'  #encryption passphrase
 email_decrypt_key = b'Super Secure Passphrase Goes Here'  #decryption passphrase 
 
 ########USER SETTINGS########
+
+print "Acquiring connection to email servers\n\tThis make take a few seconds ..."
 
 ##################################Crypto stuff##################################
 email_encrypt_key_hash = hashlib.sha256(email_encrypt_key).digest()

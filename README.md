@@ -13,11 +13,15 @@ Setup for extra modules:
    1. Install python-pip in order to install modules (replace apt-get with your distro installation manager)
 
          sudo apt-get install python-pip
-   2. Install crypto modules
+   2. Install the python development headers needed to install the crypto modules
 
-         sudo pip install pycrypto hashlib
-   3. Open cgminer-monitor.py in an editor and set the user configurations at the top
-   4. Open cgminer-commander.py in an editor and set the user configurations at the top
+        sudo apt-get install python-dev
+   3. Install crypto modules
+
+         sudo pip install pycrypto
+   4. Open cgminer-monitor.py in an editor and set the user configurations at the top
+   5. Open cgminer-commander.py in an editor and set the user configurations at the top
+   6. Start up the scripts using 'python [script name]'
 
 ## Usage for the Cgminer-Monitor Script ##
 
@@ -25,11 +29,11 @@ Script will need to open a socket, so super-user may be needed
 
 In order for the script to use the cgminer's api, '--api-listen --api-allow W:127.0.0.1' must be included in the cgminer command or configuration file
 
-Usage: cgminer-monitor.py
+Usage: python cgminer-monitor.py
 
  - Executes the monitor script
 
-Usage: cgminer-monitor.py [command] [parameter]
+Usage: python cgminer-monitor.py [command] [parameter]
 
  - Executes a api command locally, direct access to the miner is needed
 
@@ -57,7 +61,7 @@ cgminer-monitor.py [command] [optional parameter]
 
 ## Usage for the Cgminer-Commander Script ##
 
-Usage: cgminer-commander.py [argument]
+Usage: python cgminer-commander.py [argument]
    --check or -c              Check for emails from the miner
    --send or -s                 Send a command email to the miner (Invokes built in text editor)
    --sendhelp or -sh     Ask miner for help information

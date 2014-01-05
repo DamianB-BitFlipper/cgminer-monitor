@@ -18,7 +18,7 @@
 # or add it in your cgminer.conf config file
 #
 
-# Additional Dependencies that may be needed: pycrypto, hashlib
+# Additional Dependencies that may be needed: pycrypto
 
 import socket
 import sys
@@ -307,8 +307,12 @@ def GetNewEmails(login, password, imapserver = email_imap_server):
             typ, data = server.fetch(num, '(RFC822)')
             msg = email.message_from_string(data[0][1])
 
-            #mark the email as seen 
-            typ, data = server.store(num, '+FLAGS', '(\\Seen)')
+            #only mark messages from the commander as seen, else unmark them
+            if(msg['Subject'] == email_uniq_commander_signature):
+                typ, data = server.store(num, '+FLAGS', '(\\Seen)')
+            else:
+                #mark the email as unseen 
+                typ, data = server.store(num, '-FLAGS', '(\\Seen)')
 
             try:
                 if CheckRecievingSignature(msg) == True:
